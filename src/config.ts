@@ -1,6 +1,6 @@
 export const SITE = {
   website: "https://blog.754321.xyz/", // replace this with your deployed domain
-  author: "invmy",
+  author: "一歩一歩",
   profile: "/about",
   desc: "一个个人博客",
   title: "一歩一歩",
