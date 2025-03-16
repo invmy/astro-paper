@@ -15,11 +15,12 @@ const { title, pubDatetime, modDatetime, description } = frontmatter;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
-  class: "text-lg font-medium decoration-dashed hover:underline",
+  class: "text-xl font-medium decoration-dashed hover:underline",
 };
 ---
 
 <li class="my-6">
+  <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
   <a
     href={href}
     class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
@@ -32,6 +33,5 @@ const headerProps = {
       )
     }
   </a>
-  <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
-  <p>{description}</p>
+  <!-- <p>{description}</p> -->
 </li>

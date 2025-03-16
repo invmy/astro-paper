@@ -32,7 +32,7 @@ const time = myDatetime.toLocaleTimeString(LOCALE.langTag, {
 ---
 
 <div class={`flex items-end space-x-2 opacity-80 ${className}`.trim()}>
-  <svg
+  <!-- <svg
     xmlns="http://www.w3.org/2000/svg"
     class={`${
       size === "sm" ? "scale-90" : "scale-100"
@@ -45,16 +45,15 @@ const time = myDatetime.toLocaleTimeString(LOCALE.langTag, {
     <path
       d="M5 22h14c1.103 0 2-.897 2-2V6c0-1.103-.897-2-2-2h-2V2h-2v2H9V2H7v2H5c-1.103 0-2 .897-2 2v14c0 1.103.897 2 2 2zM19 8l.001 12H5V8h14z"
     ></path>
-  </svg>
+  </svg> -->
   {
     modDatetime && modDatetime > pubDatetime ? (
       <span
         class={`italic ${size === "sm" ? "text-sm" : "text-sm sm:text-base"}`}
-      >
-        Updated:
+      >🔥
       </span>
     ) : (
-      <span class="sr-only">Published:</span>
+      <span class="sr-only">发布</span>
     )
   }
   <span class={`italic ${size === "sm" ? "text-sm" : "text-sm sm:text-base"}`}>

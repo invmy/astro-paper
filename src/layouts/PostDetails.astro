@@ -65,7 +65,6 @@ const layoutProps = {
 };
 
 /* ========== Prev/Next Posts ========== */
-
 const allPosts = posts.map(({ data: { title }, id }) => ({
   slug: id,
   title,
@@ -89,12 +88,6 @@ const nextPost =
     ]}
     data-pagefind-body
   >
-    <h1
-      transition:name={slugifyStr(title)}
-      class="inline-block text-2xl font-bold text-accent sm:text-3xl"
-    >
-      {title}
-    </h1>
     <div class="flex items-center gap-4">
       <Datetime
         pubDatetime={pubDatetime}
@@ -102,21 +95,31 @@ const nextPost =
         size="lg"
         class="my-2"
       />
-      <EditPost class="max-sm:hidden" editPost={editPost} postId={post.id} />
+      <!-- <EditPost class="max-sm:hidden" editPost={editPost} postId={post.id} /> -->
+      <ul class="mt-4 mb-8 sm:my-8">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+      </ul>
     </div>
-    <article id="article" class="mx-auto prose mt-8 max-w-3xl">
+    <h1
+      transition:name={slugifyStr(title)}
+      class="inline-block text-2xl font-bold text-accent sm:text-3xl"
+    >
+      {title}
+    </h1>
+
+    <article id="article" class="mx-auto prose mt-8 max-w-3xl text-xl">
       <Content />
     </article>
 
     <hr class="my-8 border-dashed" />
 
-    <EditPost class="sm:hidden" editPost={editPost} postId={post.id} />
+    <!-- <EditPost class="sm:hidden" editPost={editPost} postId={post.id} /> -->
 
-    <ul class="mt-4 mb-8 sm:my-8">
+    <!-- <ul class="mt-4 mb-8 sm:my-8">
       {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
+    </ul> -->
 
-    <div
+    <!-- <div
       class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4"
     >
       <ShareLinks />
@@ -128,40 +131,56 @@ const nextPost =
         <IconChevronLeft class="inline-block rotate-90" />
         <span>Back to Top</span>
       </button>
-    </div>
+    </div> -->
 
-    <hr class="my-6 border-dashed" />
+    <!-- <hr class="my-6 border-dashed" /> -->
 
-    <!-- Previous/Next Post Buttons -->
-    <div data-pagefind-ignore class="grid grid-cols-1 gap-6 sm:grid-cols-2">
-      {
-        prevPost && (
-          <a
-            href={`/posts/${prevPost.slug}`}
-            class="flex w-full gap-1 hover:opacity-75"
-          >
-            <IconChevronLeft class="inline-block flex-none" />
-            <div>
-              <span>Previous Post</span>
+    <!-- Previous / Back to Top / Next Buttons -->
+    <div
+      data-pagefind-ignore
+      class="flex items-center justify-between gap-4"
+    >
+      <!-- 上一篇文章 -->
+      <div class="flex w-full max-w-[33%] justify-start">
+        {
+          prevPost && (
+            <a
+              href={`/posts/${prevPost.slug}`}
+              class="flex gap-1 hover:opacity-75"
+            >
+              <IconChevronLeft class="inline-block flex-none" />
               <div class="text-sm text-accent/85">{prevPost.title}</div>
-            </div>
-          </a>
-        )
-      }
-      {
-        nextPost && (
-          <a
-            href={`/posts/${nextPost.slug}`}
-            class="flex w-full justify-end gap-1 text-right hover:opacity-75 sm:col-start-2"
-          >
-            <div>
-              <span>Next Post</span>
+            </a>
+          )
+        }
+      </div>
+
+      <!-- Back to Top（始终居中） -->
+      <div class="flex w-full max-w-[33%] justify-center">
+        <button
+          id="back-to-top"
+          class="focus-outline py-1 whitespace-nowrap hover:opacity-75"
+          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+        >
+          <IconChevronLeft class="inline-block rotate-90" />
+          <!-- <span>Back to Top</span> -->
+        </button>
+      </div>
+
+      <!-- 下一篇文章 -->
+      <div class="flex w-full max-w-[33%] justify-end">
+        {
+          nextPost && (
+            <a
+              href={`/posts/${nextPost.slug}`}
+              class="flex gap-1 hover:opacity-75"
+            >
               <div class="text-sm text-accent/85">{nextPost.title}</div>
-            </div>
-            <IconChevronRight class="inline-block flex-none" />
-          </a>
-        )
-      }
+              <IconChevronRight class="inline-block flex-none" />
+            </a>
+          )
+        }
+      </div>
     </div>
   </main>
   <Footer />

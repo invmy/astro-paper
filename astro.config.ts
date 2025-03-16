@@ -14,10 +14,10 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
+    remarkPlugins: [remarkToc, [remarkCollapse, { test: "TOC" }]],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
-      themes: { light: "min-light", dark: "night-owl" },
+      themes: { light: "github-dark-default", dark: "github-dark-dimmed" },
       wrap: true,
     },
   },

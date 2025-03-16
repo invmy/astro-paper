@@ -1,0 +1,27 @@
+backend:
+  name: github
+  repo: invmy/astro-paper
+  branch: i # Branch to update (optional; defaults to master)
+  site_domain: https://blog.754321.xyz
+  base_url: https://blog.754321.xyz
+  auth_endpoint: /api/auth
+
+media_folder: src/assets/images
+public_folder: "@/assets/images"
+
+collections:
+  - name: 'blog'
+    label: 'blog'
+    folder: 'src/data/blog'
+    create: true
+    editor:
+      preview: true
+      frame: true
+    sortable_fields: ["pubDatetime","modDatetime"]
+    fields:
+      - { label: '标题', name: 'title', widget: 'string' ,required: true}
+      - { label: '描述', name: 'description', widget: 'string',required: true}
+      - { label: '发布日期', name: 'pubDatetime', widget: 'datetime',required: true}
+      - { label: '更新日期', name: 'modDatetime', widget: 'datetime',required: false}
+      - { label: "标签", name: "tags", widget: "list",required: false, hint: "输入标签使用英文逗号分割，无限制数量。列如：标签1,标签2,标签3" }
+      - { label: '正文', name: 'body', widget: 'markdown',required: true}

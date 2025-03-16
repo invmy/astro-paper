@@ -6,31 +6,20 @@ import IconWhatsapp from "@/assets/icons/IconWhatsapp.svg";
 import IconFacebook from "@/assets/icons/IconFacebook.svg";
 import IconTelegram from "@/assets/icons/IconTelegram.svg";
 import IconPinterest from "@/assets/icons/IconPinterest.svg";
+import IconRss from "@/assets/icons/IconRss.svg";
 import { SITE } from "@/config";
 
 export const LOCALE = {
-  lang: "en", // html lang code. Set this empty and default will be "en"
-  langTag: ["en-EN"], // BCP 47 Language Tags. Set this empty [] to use the environment default
+  lang: "zh", // html lang code. Set this empty and default will be "en"
+  langTag: ["zh-CN"], // BCP 47 Language Tags. Set this empty [] to use the environment default
 } as const;
 
 export const SOCIALS = [
   {
-    name: "Github",
-    href: "https://github.com/satnaing/astro-paper",
-    linkTitle: ` ${SITE.title} on Github`,
-    icon: IconGitHub,
-  },
-  {
-    name: "X",
-    href: "https://x.com/username",
-    linkTitle: `${SITE.title} on X`,
-    icon: IconBrandX,
-  },
-  {
-    name: "LinkedIn",
-    href: "https://www.linkedin.com/in/username/",
-    linkTitle: `${SITE.title} on LinkedIn`,
-    icon: IconLinkedin,
+    name: "RSS",
+    href: "/rss.xml",
+    linkTitle: `RSS Feed`,
+    icon: IconRss,
   },
   {
     name: "Mail",
