@@ -15,7 +15,7 @@ tags:
 
 需要添加目录的文章添加 `## TOC` 会自动生成并折叠
 
-```
+```ts
 astro.config.ts
 
 remarkPlugins: [remarkToc, [remarkCollapse, { test: "Table of contents" }]],
@@ -45,7 +45,7 @@ src\styles\global.css
 
 修复中文生成错误
 
-```
+```ts
 src\utils\loadGoogleFont.ts
 
   const fontsConfig = [
@@ -64,7 +64,7 @@ src\utils\loadGoogleFont.ts
   ];
 ```
 
-## 左上右 导航
+## 底栏 导航
 
 需要注释掉 ShareLinks
 
@@ -118,6 +118,30 @@ src\layouts\PostDetails.astro
         }
       </div>
     </div>
+```
+
+## 配色
+
+本站配色，更多可以自己找chatgpt生成一套
+
+`src\styles\global.css`
+
+```css
+html[data-theme="light"] {
+  --background: #f3f3f3;
+  --foreground: #262626;
+  --accent: #0067b8;
+  --muted: #e1e1e1;
+  --border: #c8c8c8;
+}
+
+html[data-theme="dark"] {
+  --background: #1b1b1b;
+  --foreground: #f3f3f3;
+  --accent: #0078d4;
+  --muted: #292929;
+  --border: #3f3f3f;
+}
 ```
 
 ## 更多待续
