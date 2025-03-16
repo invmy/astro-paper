@@ -79,7 +79,7 @@ rclone -P -v copy file.txt r2:/dir
 
 ## 简单的备份脚本
 
-```
+```bash
 #!/bin/bash
 
 server="r2"
@@ -131,7 +131,7 @@ android端下载：https://github.com/SimonMarquis/FCM-toolbox/releases
 
 使用方法 `sh fcm.sh "title" "conent"`
 
-```
+```bash
 #!/bin/bash
 
 # 发送 FCM 消息
