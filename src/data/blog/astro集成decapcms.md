@@ -38,9 +38,7 @@ https://github.com/settings/developers
 
 提供几个主题的模板，自行修改。
 
-<details>
-
-<summary>Astro-paper</summary>
+### Astro-paper
 
 ```yaml
 
@@ -74,11 +72,7 @@ collections:
 
 ```
 
-</details>
-
-<details>
-
-<summary>Astro Cactus</summary>
+### Astro Cactus
 
 ```yaml
 backend:
@@ -124,11 +118,7 @@ collections:
       - { label: '正文', name: 'body', widget: 'markdown' }
 ```
 
-</details>
-
-<details>
-
-<summary>Astro fuwari</summary>
+### Astro fuwari
 
 ```yaml
 backend:
@@ -175,8 +165,6 @@ collections:
       - { label: '路径', name: "title", widget: "string",required: true, hint: "使用小写英文路径 , 仅创建时有效。创建完不支持修改，必须手动修改src/content/spec/下的文件名" }
       - { label: '正文', name: 'body',widget: 'markdown'}
 ```
-
-</details>
 
 ## 部署到cloudflare Pages
 

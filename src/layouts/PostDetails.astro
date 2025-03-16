@@ -141,42 +141,42 @@ const nextPost =
       class="flex items-center justify-between gap-4"
     >
       <!-- 上一篇文章 -->
-      <div class="flex w-full max-w-[33%] justify-start">
+      <div class="flex w-full max-w-[33%] justify-start items-center">
         {
           prevPost && (
             <a
               href={`/posts/${prevPost.slug}`}
-              class="flex gap-1 hover:opacity-75"
+              class="flex items-center gap-1 hover:opacity-75"
             >
-              <IconChevronLeft class="inline-block flex-none" />
-              <div class="text-sm text-accent/85">{prevPost.title}</div>
+              <IconChevronLeft class="inline-block flex-none self-center" />
+              <div class="text-lg text-accent/85">{prevPost.title}</div>
             </a>
           )
         }
       </div>
 
       <!-- Back to Top（始终居中） -->
-      <div class="flex w-full max-w-[33%] justify-center">
+      <div class="flex w-full max-w-[33%] justify-center items-center">
         <button
           id="back-to-top"
-          class="focus-outline py-1 whitespace-nowrap hover:opacity-75"
+          class="focus-outline py-1 whitespace-nowrap hover:opacity-75 flex items-center"
           onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
         >
-          <IconChevronLeft class="inline-block rotate-90" />
+          <IconChevronLeft class="inline-block rotate-90 self-center" />
           <!-- <span>Back to Top</span> -->
         </button>
       </div>
 
       <!-- 下一篇文章 -->
-      <div class="flex w-full max-w-[33%] justify-end">
+      <div class="flex w-full max-w-[33%] justify-end items-center">
         {
           nextPost && (
             <a
               href={`/posts/${nextPost.slug}`}
-              class="flex gap-1 hover:opacity-75"
+              class="flex items-center gap-1 hover:opacity-75"
             >
-              <div class="text-sm text-accent/85">{nextPost.title}</div>
-              <IconChevronRight class="inline-block flex-none" />
+              <div class="text-lg text-accent/85">{nextPost.title}</div>
+              <IconChevronRight class="inline-block flex-none self-center" />
             </a>
           )
         }

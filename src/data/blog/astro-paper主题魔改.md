@@ -25,7 +25,7 @@ remarkPlugins: [remarkToc, [remarkCollapse, { test: "TOC" }]],
 
 ## 字体
 
-貌似是BUG，除了英文其他字体根本没生效！修复代码只需要加入font-sans
+貌似是BUG，除了英文其他字体根本没生效！中文全部都是宋体。修复代码只需要加入font-sans
 
 ```css
 src\styles\global.css
@@ -71,53 +71,54 @@ src\utils\loadGoogleFont.ts
 src\layouts\PostDetails.astro
 
 ```html
-    <!-- Previous / Back to Top / Next Buttons -->
-    <div
-      data-pagefind-ignore
-      class="flex items-center justify-between gap-4"
-    >
-      <!-- 上一篇文章 -->
-      <div class="flex w-full max-w-[33%] justify-start">
-        {
-          prevPost && (
-            <a
-              href={`/posts/${prevPost.slug}`}
-              class="flex gap-1 hover:opacity-75"
-            >
-              <IconChevronLeft class="inline-block flex-none" />
-              <div class="text-sm text-accent/85">{prevPost.title}</div>
-            </a>
-          )
-        }
-      </div>
-
-      <!-- Back to Top（始终居中） -->
-      <div class="flex w-full max-w-[33%] justify-center">
-        <button
-          id="back-to-top"
-          class="focus-outline py-1 whitespace-nowrap hover:opacity-75"
-          onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+<!-- Previous / Back to Top / Next Buttons -->
+<div
+  data-pagefind-ignore
+  class="flex items-center justify-between gap-4"
+>
+  <!-- 上一篇文章 -->
+  <div class="flex w-full max-w-[33%] justify-start items-center">
+    {
+      prevPost && (
+        <a
+          href={`/posts/${prevPost.slug}`}
+          class="flex items-center gap-1 hover:opacity-75"
         >
-          <IconChevronLeft class="inline-block rotate-90" />
-          <!-- <span>Back to Top</span> -->
-        </button>
-      </div>
+          <IconChevronLeft class="inline-block flex-none self-center" />
+          <div class="text-lg text-accent/85">{prevPost.title}</div>
+        </a>
+      )
+    }
+  </div>
 
-      <!-- 下一篇文章 -->
-      <div class="flex w-full max-w-[33%] justify-end">
-        {
-          nextPost && (
-            <a
-              href={`/posts/${nextPost.slug}`}
-              class="flex gap-1 hover:opacity-75"
-            >
-              <div class="text-sm text-accent/85">{nextPost.title}</div>
-              <IconChevronRight class="inline-block flex-none" />
-            </a>
-          )
-        }
-      </div>
-    </div>
+  <!-- Back to Top（始终居中） -->
+  <div class="flex w-full max-w-[33%] justify-center items-center">
+    <button
+      id="back-to-top"
+      class="focus-outline py-1 whitespace-nowrap hover:opacity-75 flex items-center"
+      onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
+    >
+      <IconChevronLeft class="inline-block rotate-90 self-center" />
+      <!-- <span>Back to Top</span> -->
+    </button>
+  </div>
+
+  <!-- 下一篇文章 -->
+  <div class="flex w-full max-w-[33%] justify-end items-center">
+    {
+      nextPost && (
+        <a
+          href={`/posts/${nextPost.slug}`}
+          class="flex items-center gap-1 hover:opacity-75"
+        >
+          <div class="text-lg text-accent/85">{nextPost.title}</div>
+          <IconChevronRight class="inline-block flex-none self-center" />
+        </a>
+      )
+    }
+  </div>
+</div>
+
 ```
 
 ## 配色
