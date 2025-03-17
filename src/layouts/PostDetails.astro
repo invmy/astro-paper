@@ -178,6 +178,7 @@ const nextPost =
 </Layout>
 
 <script is:inline data-astro-rerun defer>
+
   /** Create a progress indicator
    *  at the top */
   function createProgressBar() {
@@ -217,7 +218,7 @@ const nextPost =
       }
     });
   }
-  updateScrollProgress();
+  // updateScrollProgress();
 
   /** Attaches links to headings in the document,
    *  allowing sharing of sections easily */
@@ -298,15 +299,18 @@ const nextPost =
       document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
     });
   }
-  backToTop();
+  // backToTop();
 
   /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
+  
   document.addEventListener("DOMContentLoaded", () => {
     addHeadingLinks();
     attachCopyButtons();
     createProgressBar();
+    backToTop();
+    updateScrollProgress();
   });
 </script>
