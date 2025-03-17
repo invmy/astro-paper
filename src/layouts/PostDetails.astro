@@ -146,10 +146,10 @@ const nextPost =
           prevPost && (
             <a
               href={`/posts/${prevPost.slug}`}
-              class="flex items-center gap-1 hover:opacity-75"
+              class="flex items-center gap-1 hover:opacity-50"
             >
               <IconChevronLeft class="inline-block flex-none self-center" />
-              <div class="text-lg text-accent/85">{prevPost.title}</div>
+              <div class="text-lg text-accent/100">{prevPost.title}</div>
             </a>
           )
         }
@@ -159,13 +159,13 @@ const nextPost =
       <div class="flex w-full max-w-[33%] justify-center items-center">
         <button
           id="back-to-top"
-          class="focus-outline py-1 whitespace-nowrap hover:opacity-75 flex items-center"
+          class="focus-outline py-1 whitespace-nowrap hover:opacity-75 flex flex-col items-center"
           onclick="window.scrollTo({ top: 0, behavior: 'smooth' })"
         >
           <IconChevronLeft class="inline-block rotate-90 self-center" />
-          <!-- <span>Back to Top</span> -->
+          <span class="mt-1 text-sm">返回顶部</span>
         </button>
-      </div>
+      </div>      
 
       <!-- 下一篇文章 -->
       <div class="flex w-full max-w-[33%] justify-end items-center">
@@ -173,9 +173,9 @@ const nextPost =
           nextPost && (
             <a
               href={`/posts/${nextPost.slug}`}
-              class="flex items-center gap-1 hover:opacity-75"
+              class="flex items-center gap-1 hover:opacity-50"
             >
-              <div class="text-lg text-accent/85">{nextPost.title}</div>
+              <div class="text-lg text-accent/100">{nextPost.title}</div>
               <IconChevronRight class="inline-block flex-none self-center" />
             </a>
           )
@@ -231,24 +231,31 @@ const nextPost =
   /** Attaches links to headings in the document,
    *  allowing sharing of sections easily */
   function addHeadingLinks() {
-    const headings = Array.from(
-      document.querySelectorAll("h2, h3, h4, h5, h6")
-    );
+    const headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
+
     for (const heading of headings) {
+      if (!heading.id) continue; // 跳过没有 ID 的标题
+
       heading.classList.add("group");
       const link = document.createElement("a");
-      link.className =
-        "heading-link ml-2 opacity-0 group-hover:opacity-100 focus:opacity-100";
+      link.className = "heading-link ml-2 opacity-0 group-hover:opacity-100 focus:opacity-100";
       link.href = "#" + heading.id;
+      
+      // 添加可访问性标签
+      link.setAttribute("aria-label", `前往 ${heading.innerText}`);
+      link.title = `前往 ${heading.innerText}`;
 
       const span = document.createElement("span");
       span.ariaHidden = "true";
       span.innerText = "#";
+
       link.appendChild(span);
       heading.appendChild(link);
     }
   }
+
   addHeadingLinks();
+
 
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */

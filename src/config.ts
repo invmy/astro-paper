@@ -1,9 +1,9 @@
 export const SITE = {
   website: "https://blog.754321.xyz/", // replace this with your deployed domain
-  author: "一歩一歩",
+  author: "invmy",
   profile: "/about",
-  desc: "一个个人博客",
-  title: "一歩一歩",
+  desc: "记录自己成长的过程",
+  title: "invest My Life",
   ogImage: "astropaper-og.jpg",
   lightAndDarkMode: true,
   postPerIndex: 6,
