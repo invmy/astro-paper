@@ -17,4 +17,9 @@ export const SITE = {
     appendFilePath: false,
   },
   dynamicOgImage: true,
+  menu: [
+    { title: "文章", path: "/posts" },
+    { title: "标签", path: "/tags" },
+    { title: "链接", path: "/link" },
+  ],
 } as const;

@@ -65,6 +65,26 @@ src\utils\loadGoogleFont.ts
     },
   ];
 ```
+## 顶部菜单 高亮
+
+decoration-solid <span style="text-decoration: solid underline;">普通实线</span>  
+
+decoration-double <span style="text-decoration: double underline;">双线</span>  
+
+decoration-dashed <span style="text-decoration: dashed underline;">虚线</span>  
+
+decoration-dotted <span style="text-decoration: dotted underline;">点状线</span>  
+
+decoration-wavy <span style="text-decoration: wavy underline;">波浪线</span>  
+
+`src\styles\global.css`
+```
+修改你要的样式
+
+.active-nav {
+  @apply underline decoration-solid decoration-2 underline-offset-4;
+}
+```
 
 ## 底栏 导航
 
@@ -231,4 +251,155 @@ html[data-theme="dark"] {
 }
 ```
 
-## 更多待续
+## 菜单 自定义
+
+`src\components\Header.astro`
+
+```astro
+<li class="col-span-2">
+  <a href="/posts" class:list={{ "active-nav": isActive("/posts") }}>
+    Posts
+  </a>
+</li>
+<li class="col-span-2">
+  <a href="/tags" class:list={{ "active-nav": isActive("/tags") }}>
+    Tags
+  </a>
+</li>
+<li class="col-span-2">
+  <a href="/about" class:list={{ "active-nav": isActive("/about") }}>
+    About
+  </a>
+</li>
+
+修改为
+
+{SITE.menu.map((item) => (
+  <li class="col-span-2">
+    <a href={item.path} class:list={{ "active-nav": isActive(item.path) }}>
+      {item.title}
+    </a>
+  </li>
+))}
+```
+
+`src\config.ts`
+```ts
+底部添加
+
+......
+  menu: [
+    { title: "Home", path: "/" },
+    { title: "Posts", path: "/posts" },
+    { title: "Tags", path: "/tags" },
+    { title: "About", path: "/about" },
+    { title: "Link", path: "/link" },
+  ],
+} as const;
+
+```
+
+## 更多页面
+
+不止About，还能添加更多单独页面
+
+修改`src\content.config.ts`定义内容合集，添加pages
+
+```ts
+........
+
+const pages = defineCollection({
+  loader: glob({ pattern: "**/[^_]*.md", base: "./src/data" }),
+});
+
+
+export const collections = { blog, pages };
+```
+
+删除`src\layouts\AboutLayout.astro`
+
+删除`src\pages\about.md`
+
+添加`src\pages\[...slug].astro`
+
+```astro
+---
+import { type CollectionEntry, getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import { SITE } from "@/config";
+
+export interface Props {
+  page: CollectionEntry<"pages">;
+}
+
+export async function getStaticPaths() {
+  const pages = await getCollection("pages");
+
+  return pages.map(page => ({
+    params: { slug: page.id },
+    props: { page },
+  }));
+}
+
+const { page } = Astro.props;
+---
+
+<Layout title={`${page.id} | ${SITE.title}`}>
+  <Header />
+  <Breadcrumb />
+  <main id="main-content">
+    <section id={page.id} class="prose mb-28 max-w-3xl prose-img:border-0">
+      <h1 class="text-2xl tracking-wider sm:text-3xl">{page.id}</h1>
+      <article>
+        {page.body}
+      </article>
+    </section>
+  </main>
+  <Footer />
+</Layout>
+
+```
+
+如何添加页面？
+
+假如添加about
+
+则添加`src\data\about.md`
+
+内容 直接输入正文即可
+
+```
+我是正文开头
+
+## 自豪地使用 `AstroPaper`
+
+我是正文结尾
+```
+
+## Disqus 评论
+
+参考 https://github.com/ziteh/astro-paper-s/blob/main/src/components/Disqus.astro
+
+将文件保存至 `src\components\Disqus.astro` 并修改 `SHORTNAME`
+
+
+
+修改`src\layouts\PostDetails.astro`
+```astro
+
+添加引用
+import Disqus from "@/components/Disqus.astro";
+
+
+
+添加到底部
+
+......
+    <Disqus slug={slugifyStr(title)} title={title} />
+  </main>
+  <Footer />
+</Layout>
+```

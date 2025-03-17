@@ -25,3 +25,14 @@ collections:
       - { label: '更新日期', name: 'modDatetime', widget: 'datetime',required: false}
       - { label: "标签", name: "tags", widget: "list",required: false, hint: "输入标签使用英文逗号分割，无限制数量。列如：标签1,标签2,标签3" }
       - { label: '正文', name: 'body', widget: 'markdown',required: true}
+
+  - name: 'page'
+    label: 'page'
+    folder: 'src/data/'
+    create: true
+    editor:
+      preview: true
+      frame: true
+    fields:
+      - { label: '路径', name: 'title', widget: 'string' ,required: true,hint: "仅用作创建，后续不支持更改"}
+      - { label: '内容', name: 'body', widget: 'markdown',required: true}

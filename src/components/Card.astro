@@ -21,12 +21,6 @@ const headerProps = {
 ---
 
 <li class="my-6">
-  <div class="flex items-center space-x-1">
-    <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
-    <ul class="flex space-x-1">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
-  </div>
   <a
     href={href}
     class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
@@ -39,5 +33,11 @@ const headerProps = {
       )
     }
   </a>
+  <div class="flex items-center space-x-4">
+    <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+    <ul class="flex space-x-1">
+      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+    </ul>
+  </div>
   <!-- <p>{description}</p> -->
 </li>
