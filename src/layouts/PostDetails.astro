@@ -13,6 +13,9 @@ import IconChevronLeft from "@/assets/icons/IconChevronLeft.svg";
 import IconChevronRight from "@/assets/icons/IconChevronRight.svg";
 import { SITE } from "@/config";
 
+
+import Disqus from "@/components/Disqus.astro";
+
 export interface Props {
   post: CollectionEntry<"blog">;
   posts: CollectionEntry<"blog">[];
@@ -112,26 +115,8 @@ const nextPost =
     </article>
 
     <hr class="my-8 border-dashed" />
-
     <!-- <EditPost class="sm:hidden" editPost={editPost} postId={post.id} /> -->
 
-    <!-- <ul class="mt-4 mb-8 sm:my-8">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul> -->
-
-    <!-- <div
-      class="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-end sm:gap-4"
-    >
-      <ShareLinks />
-
-      <button
-        id="back-to-top"
-        class="focus-outline py-1 whitespace-nowrap hover:opacity-75"
-      >
-        <IconChevronLeft class="inline-block rotate-90" />
-        <span>Back to Top</span>
-      </button>
-    </div> -->
 
     <!-- <hr class="my-6 border-dashed" /> -->
 
@@ -182,6 +167,7 @@ const nextPost =
         }
       </div>
     </div>
+    <Disqus slug={slugifyStr(title)} title={title} />
   </main>
   <Footer />
 </Layout>
