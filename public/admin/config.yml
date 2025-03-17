@@ -19,6 +19,7 @@ collections:
       frame: true
     sortable_fields: ["pubDatetime","modDatetime"]
     fields:
+      - { label: "封面",name: "cover",widget: "image",required: false, choose_url: true,hint: "可以上传也可以插入链接",}
       - { label: '标题', name: 'title', widget: 'string' ,required: true}
       - { label: '描述', name: 'description', widget: 'string',required: true}
       - { label: '发布日期', name: 'pubDatetime', widget: 'datetime',required: true}
