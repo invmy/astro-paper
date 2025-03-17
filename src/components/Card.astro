@@ -2,6 +2,7 @@
 import { slugifyStr } from "@/utils/slugify";
 import type { CollectionEntry } from "astro:content";
 import Datetime from "./Datetime.astro";
+import Tag from "@/components/Tag.astro";
 
 export interface Props {
   href?: string;
@@ -11,7 +12,7 @@ export interface Props {
 
 const { href, frontmatter, secHeading = true } = Astro.props;
 
-const { title, pubDatetime, modDatetime, description } = frontmatter;
+const { title, pubDatetime, modDatetime, description,tags } = frontmatter;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
@@ -20,6 +21,12 @@ const headerProps = {
 ---
 
 <li class="my-6">
+  <div class="flex items-center space-x-1">
+    <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+    <ul class="flex space-x-1">
+      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+    </ul>
+  </div>
   <a
     href={href}
     class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
@@ -32,6 +39,5 @@ const headerProps = {
       )
     }
   </a>
-  <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
   <!-- <p>{description}</p> -->
 </li>

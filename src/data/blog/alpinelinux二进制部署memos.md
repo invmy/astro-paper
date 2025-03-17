@@ -1,5 +1,5 @@
 ---
-title: AlpineLinux二进制方式部署Memos
+title: AlpineLinux二进制部署Memos
 description: AlpineLinux使用二进制方式部署Memos，不安装docker坏境。适合低配置主机。最快方式部署
 pubDatetime: 2025-03-16T17:22:00.000Z
 tags:
