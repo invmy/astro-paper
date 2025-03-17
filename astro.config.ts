@@ -17,7 +17,7 @@ export default defineConfig({
     remarkPlugins: [remarkToc, [remarkCollapse, { test: "TOC" }]],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
-      themes: { light: "monokai", dark: "nord" },
+      themes: { light: "min-light", dark: "min-dark" },
       wrap: true,
     },
   },
