@@ -99,6 +99,7 @@ const nextPost =
         src={typeof cover === "string" ? cover : cover?.src} 
         alt={title} 
         class="w-full"
+        loading="lazy"
       />
       <div class="my-8 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
     )}
@@ -176,7 +177,7 @@ const nextPost =
   <Footer />
 </Layout>
 
-<script is:inline data-astro-rerun>
+<script is:inline data-astro-rerun defer>
   /** Create a progress indicator
    *  at the top */
   function createProgressBar() {
@@ -196,7 +197,7 @@ const nextPost =
     // Append the progress container to the document body or any other desired parent element
     document.body.appendChild(progressContainer);
   }
-  createProgressBar();
+  // createProgressBar();
 
   /** Update the progress bar
    *  when user scrolls */
@@ -244,7 +245,7 @@ const nextPost =
     }
   }
 
-  addHeadingLinks();
+  // addHeadingLinks();
 
 
   /** Attaches copy buttons to code blocks in the document,
@@ -287,7 +288,7 @@ const nextPost =
       }, 700);
     }
   }
-  attachCopyButtons();
+  // attachCopyButtons();
 
   /** Scrolls the document to the top when
    * the "Back to Top" button is clicked. */
@@ -303,4 +304,9 @@ const nextPost =
   document.addEventListener("astro:after-swap", () =>
     window.scrollTo({ left: 0, top: 0, behavior: "instant" })
   );
+  document.addEventListener("DOMContentLoaded", () => {
+    addHeadingLinks();
+    attachCopyButtons();
+    createProgressBar();
+  });
 </script>
