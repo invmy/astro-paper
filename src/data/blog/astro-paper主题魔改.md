@@ -11,26 +11,6 @@ tags:
 
 ## TOC
 
-## 性能优化
-
-页面完全加载再执行js
-
-在页面加载完全再执行
-
-```js
-.......
-
-前面的同名函数需要注释掉
-
-document.addEventListener("DOMContentLoaded", () => {
-  addHeadingLinks();
-  attachCopyButtons();
-  createProgressBar();
-  backToTop();
-  updateScrollProgress();
-});
-```
-
 ## 目录
 
 未修改代码，

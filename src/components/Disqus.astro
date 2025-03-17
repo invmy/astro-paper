@@ -6,8 +6,8 @@
   Usage:
     import Disqus from "@components/Disqus.astro";
     <Disqus slug={slug} title={title} />
- -->
-<div id="disqus_thread"></div>
+-->
+<div id="disqus_thread" class="disqus-thread"></div>
 
 <script is:inline>
   if (!window.DisqusWidget) {
@@ -21,10 +21,17 @@
         this.waitForPageReady();
       },
       addListeners: function () {
-        document.addEventListener("astro:after-swap", () => {
-          this.overwriteGlobalSelectors();
-          this.loadDisqus();
-        });
+        // 使用 IntersectionObserver 来延迟加载 Disqus
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              this.loadDisqus();
+              observer.disconnect(); // 加载完成后断开观察
+            }
+          });
+        }, { threshold: 0.5 });
+
+        observer.observe(window.$disqus);
       },
       waitForPageReady: function () {
         if (document.readyState === "complete") {
@@ -41,11 +48,13 @@
           return;
         }
 
+        // 异步加载 Disqus 脚本
         (function () {
           const d = document,
             s = d.createElement("script");
           s.src = "https://invmy.disqus.com/embed.js";
           s.setAttribute("data-timestamp", String(+new Date()));
+          s.async = true;
           (d.head || d.body).appendChild(s);
         })();
       },
