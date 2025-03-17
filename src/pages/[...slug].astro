@@ -1,5 +1,5 @@
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -20,6 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { page } = Astro.props;
+const { Content } = await render(page);
 ---
 
 <Layout title={`${page.id} | ${SITE.title}`}>
@@ -27,9 +28,8 @@ const { page } = Astro.props;
   <Breadcrumb />
   <main id="main-content">
     <section id={page.id} class="prose mb-28 max-w-3xl prose-img:border-0">
-      <h1 class="text-2xl tracking-wider sm:text-3xl">{page.id}</h1>
       <article>
-        {page.body}
+        <Content />
       </article>
     </section>
   </main>

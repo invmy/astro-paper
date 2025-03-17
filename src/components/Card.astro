@@ -12,32 +12,41 @@ export interface Props {
 
 const { href, frontmatter, secHeading = true } = Astro.props;
 
-const { title, pubDatetime, modDatetime, description,tags } = frontmatter;
+const { title, pubDatetime, modDatetime, description,tags,cover} = frontmatter;
 
 const headerProps = {
   style: { viewTransitionName: slugifyStr(title) },
-  class: "text-xl font-medium decoration-dashed hover:underline",
+  class: "text-2xl font-medium decoration-dashed hover:underline",
 };
 ---
-
-<li class="my-6">
-  <a
-    href={href}
-    class="inline-block text-lg font-medium text-accent decoration-dashed underline-offset-4 focus-visible:no-underline focus-visible:underline-offset-0"
-  >
-    {
-      secHeading ? (
+<li class="my-6 flex items-center gap-4">
+<!-- <li class="my-6 flex items-center gap-4"> -->
+  <div class="flex-1">
+    <a
+      href={href}
+      class="block text-lg font-medium text-accent decoration-dashed underline-offset-4 
+            focus-visible:no-underline focus-visible:underline-offset-0 focus-visible:ring-2 focus-visible:ring-accent"
+    >
+      {secHeading ? (
         <h2 {...headerProps}>{title}</h2>
       ) : (
         <h3 {...headerProps}>{title}</h3>
-      )
-    }
-  </a>
-  <div class="flex items-center space-x-4">
-    <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
-    <ul class="flex space-x-1">
-      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-    </ul>
+      )}
+    </a>
+
+    <div class="flex flex-wrap items-center gap-x-2 mt-2">
+      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+      <ul class="flex flex-wrap gap-1">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+      </ul>
+    </div>
   </div>
-  <!-- <p>{description}</p> -->
+
+  {cover && (
+    <img 
+      src={typeof cover === "string" ? cover : cover?.src} 
+      alt={title ? title : "文章封面"}
+      class="hidden sm:block sm:w-70 aspect-video object-cover rounded-xl"
+    />
+  )}
 </li>

@@ -5,21 +5,20 @@
 
 :root,
 html[data-theme="light"] {
-  --background: #f5f5f7;
-  --foreground: #1d1d1f;
-  --accent: #0071e3;
-  --muted: #e8e8ed;
-  --border: #d2d2d7;
+  --background: #f8f9fa;
+  --foreground: #212529;
+  --accent: #4a90e2;
+  --muted: #e9ecef;
+  --border: #ced4da;
 }
 
 html[data-theme="dark"] {
-  --background: #121212;
-  --foreground: #f5f5f7;
-  --accent: #2997ff;
-  --muted: #1e1e1e;
-  --border: #3a3a3c;
+  --background: #1b1f24;
+  --foreground: #f8f9fa;
+  --accent: #4a90e2;
+  --muted: #343a40;
+  --border: #495057;
 }
-
 
 @theme inline {
   --color-background: var(--background);

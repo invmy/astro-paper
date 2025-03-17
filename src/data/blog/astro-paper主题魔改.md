@@ -324,7 +324,7 @@ export const collections = { blog, pages };
 
 ```astro
 ---
-import { type CollectionEntry, getCollection } from "astro:content";
+import { render, type CollectionEntry, getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
@@ -345,6 +345,7 @@ export async function getStaticPaths() {
 }
 
 const { page } = Astro.props;
+const { Content } = await render(page);
 ---
 
 <Layout title={`${page.id} | ${SITE.title}`}>
@@ -352,9 +353,9 @@ const { page } = Astro.props;
   <Breadcrumb />
   <main id="main-content">
     <section id={page.id} class="prose mb-28 max-w-3xl prose-img:border-0">
-      <h1 class="text-2xl tracking-wider sm:text-3xl">{page.id}</h1>
+    <h1 class="text-3xl tracking-wider sm:text-3xl">{page.id}</h1>
       <article>
-        {page.body}
+        <Content />
       </article>
     </section>
   </main>
@@ -403,3 +404,112 @@ import Disqus from "@/components/Disqus.astro";
   <Footer />
 </Layout>
 ```
+
+## 文章封面cover
+
+主要修改三处，内容合集、文章卡片、文章内
+
+### 内容合集
+
+ `src\content.config.ts` 内加入
+```ts
+......
+z.object({
+  cover: image().or(z.string()).optional(),
+......
+```
+
+### 文章卡片
+
+修改较多 `src\components\Card.astro` 样式自己可以修改
+````astro
+---
+import { slugifyStr } from "@/utils/slugify";
+import type { CollectionEntry } from "astro:content";
+import Datetime from "./Datetime.astro";
+import Tag from "@/components/Tag.astro";
+
+export interface Props {
+  href?: string;
+  frontmatter: CollectionEntry<"blog">["data"];
+  secHeading?: boolean;
+}
+
+const { href, frontmatter, secHeading = true } = Astro.props;
+
+const { title, pubDatetime, modDatetime, description,tags,cover} = frontmatter;
+
+const headerProps = {
+  style: { viewTransitionName: slugifyStr(title) },
+  class: "text-lg font-medium decoration-dashed hover:underline",
+};
+---
+<li class="my-6 flex items-center gap-4">
+<!-- <li class="my-6 flex items-center gap-4"> -->
+  <div class="flex-1">
+    <a
+      href={href}
+      class="block text-lg font-medium text-accent decoration-dashed underline-offset-4 
+            focus-visible:no-underline focus-visible:underline-offset-0 focus-visible:ring-2 focus-visible:ring-accent"
+    >
+      {secHeading ? (
+        <h2 {...headerProps}>{title}</h2>
+      ) : (
+        <h3 {...headerProps}>{title}</h3>
+      )}
+    </a>
+
+    <div class="flex flex-wrap items-center gap-x-2 mt-2">
+      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+      <ul class="flex flex-wrap gap-1">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+      </ul>
+    </div>
+  </div>
+
+  {cover && (
+    <img 
+      src={typeof cover === "string" ? cover : cover?.src} 
+      alt={title ? title : "文章封面"}
+      class="hidden sm:block sm:w-70 aspect-video object-cover rounded-xl"
+    />
+  )}
+</li>
+````
+
+### 文章内
+
+修改`src\layouts\PostDetails.astro` 添加cover定义
+
+```ts
+引用定义cover 主要添加 cover,
+
+const {
+.....
+  editPost,
+  cover,
+} = post.data;
+
+.......
+
+const layoutProps = {
+......
+  ogImage,
+  scrollSmooth: true,
+  cover,
+};
+```
+
+下方代码 粘贴到你想出现的位置，我放的是标题开头
+
+```ts
+{cover && (
+  <img 
+    src={typeof cover === "string" ? cover : cover?.src} 
+    alt={title} 
+    class="w-full"
+  />
+  <div class="my-8 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+)}
+```
+

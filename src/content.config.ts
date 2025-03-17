@@ -6,6 +6,7 @@ const blog = defineCollection({
   loader: glob({ pattern: "**/[^_]*.md", base: "./src/data/blog" }),
   schema: ({ image }) =>
     z.object({
+      cover: image().or(z.string()).optional(),
       author: z.string().default(SITE.author),
       pubDatetime: z.date(),
       modDatetime: z.date().optional().nullable(),
@@ -29,7 +30,7 @@ const blog = defineCollection({
 
 const pages = defineCollection({
   loader: glob({ pattern: "**/[^_]*.md", base: "./src/data" }),
+  schema: z.object({}), // ✅ 不需要 Frontmatter
 });
-
 
 export const collections = { blog, pages };

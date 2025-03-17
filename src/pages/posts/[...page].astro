@@ -20,7 +20,7 @@ const { page } = Astro.props;
 
 <Layout title={`Posts | ${SITE.title}`}>
   <Header />
-  <Main pageTitle="Posts" pageDesc="📰">
+  <Main pageTitle="Posts" pageDesc="文章">
     <ul>
       {
         page.data.map(({ data, id }) => (

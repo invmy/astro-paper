@@ -33,6 +33,7 @@ const {
   modDatetime,
   tags,
   editPost,
+  cover,
 } = post.data;
 
 const { Content } = await render(post);
@@ -65,6 +66,7 @@ const layoutProps = {
   canonicalURL,
   ogImage,
   scrollSmooth: true,
+  cover,
 };
 
 /* ========== Prev/Next Posts ========== */
@@ -81,6 +83,7 @@ const nextPost =
 ---
 
 <Layout {...layoutProps}>
+  
   <Header />
   <BackButton />
   <main
@@ -91,13 +94,15 @@ const nextPost =
     ]}
     data-pagefind-body
   >
-    <div class="flex items-center space-x-4">
-      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
-      <!-- <EditPost class="max-sm:hidden" editPost={editPost} postId={post.id} /> -->
-      <ul class="flex space-x-1">
-        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
-      </ul>
-    </div>
+    {cover && (
+      <img 
+        src={typeof cover === "string" ? cover : cover?.src} 
+        alt={title} 
+        class="w-full"
+      />
+      <div class="my-8 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
+    )}
+    
     <h1
       transition:name={slugifyStr(title)}
       class="inline-block text-4xl font-bold text-accent sm:text-5xl"
@@ -105,13 +110,19 @@ const nextPost =
       {title}
     </h1>
 
+    <div class="flex items-center space-x-4">
+      <Datetime pubDatetime={pubDatetime} modDatetime={modDatetime} />
+      <!-- <EditPost class="max-sm:hidden" editPost={editPost} postId={post.id} /> -->
+      <ul class="flex space-x-1">
+        {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} />)}
+      </ul>
+    </div>
+
     <article id="article" class="mx-auto prose mt-8 max-w-3xl text-lg sm:text-xl">
       <Content />
     </article>
 
     <hr class="my-8 border-dashed" />
-
-    <!-- <hr class="my-6 border-dashed" /> -->
 
     <!-- Previous / Back to Top / Next Buttons -->
     <div
