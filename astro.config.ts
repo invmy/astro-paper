@@ -5,6 +5,9 @@ import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import { SITE } from "./src/config";
 
+import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeSlug from 'rehype-slug';
+
 // https://astro.build/config
 export default defineConfig({
   site: SITE.website,
@@ -14,7 +17,19 @@ export default defineConfig({
     }),
   ],
   markdown: {
-    remarkPlugins: [remarkToc, [remarkCollapse, { test: "TOC" }]],
+    remarkPlugins: [
+      remarkToc, [remarkCollapse, { test: "TOC" }],
+    ],
+    rehypePlugins: [
+      rehypeSlug,[rehypeAutolinkHeadings,
+        {
+          behavior: "wrap",
+          properties: {
+            className: "no-underline hover:underline",
+          },
+        },
+      ],
+    ],
     shikiConfig: {
       // For more themes, visit https://shiki.style/themes
       themes: { light: "min-light", dark: "min-dark" },

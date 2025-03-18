@@ -104,10 +104,7 @@ const nextPost =
       <div class="my-8 h-0.5 bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500"></div>
     )}
     
-    <h1
-      transition:name={slugifyStr(title)}
-      class="inline-block text-4xl font-bold text-accent sm:text-5xl"
-    >
+    <h1 class="inline-block text-4xl font-bold text-accent sm:text-5xl">
       {title}
     </h1>
 
@@ -155,8 +152,7 @@ const nextPost =
           <IconChevronLeft class="inline-block rotate-90 self-center" />
           <span class="mt-1 text-sm">返回顶部</span>
         </button>
-      </div>      
-
+      </div>   
       <!-- 下一篇文章 -->
       <div class="flex w-full max-w-[33%] justify-end items-center">
         {
@@ -180,128 +176,87 @@ const nextPost =
 <script is:inline data-astro-rerun>
   /** Create a progress indicator
    *  at the top */
-  function createProgressBar() {
-    // Create the main container div
+  (function () {
     const progressContainer = document.createElement("div");
     progressContainer.className =
-      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+      "progress-container fixed top-0 z-10 h-2 w-full bg-background";
 
-    // Create the progress bar div
     const progressBar = document.createElement("div");
     progressBar.className = "progress-bar h-1 w-0 bg-accent";
-    progressBar.id = "myBar";
-
-    // Append the progress bar to the progress container
     progressContainer.appendChild(progressBar);
 
-    // Append the progress container to the document body or any other desired parent element
     document.body.appendChild(progressContainer);
-  }
-  createProgressBar();
 
-  /** Update the progress bar
-   *  when user scrolls */
-  function updateScrollProgress() {
-    document.addEventListener("scroll", () => {
-      const winScroll =
-        document.body.scrollTop || document.documentElement.scrollTop;
-      const height =
-        document.documentElement.scrollHeight -
-        document.documentElement.clientHeight;
-      const scrolled = (winScroll / height) * 100;
-      if (document) {
-        const myBar = document.getElementById("myBar");
-        if (myBar) {
-          myBar.style.width = scrolled + "%";
-        }
+    let ticking = false;
+
+    function updateScrollProgress() {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          const winScroll =
+            document.documentElement.scrollTop || document.body.scrollTop;
+          const height =
+            document.documentElement.scrollHeight -
+            document.documentElement.clientHeight;
+          const scrolled = (winScroll / height) * 100;
+          progressBar.style.width = scrolled + "%";
+          ticking = false;
+        });
+        ticking = true;
       }
-    });
-  }
-  updateScrollProgress();
-
-  /** Attaches links to headings in the document,
-   *  allowing sharing of sections easily */
-  function addHeadingLinks() {
-    const headings = Array.from(document.querySelectorAll("h2, h3, h4, h5, h6"));
-
-    for (const heading of headings) {
-      if (!heading.id) continue; // 跳过没有 ID 的标题
-
-      heading.classList.add("group");
-      const link = document.createElement("a");
-      link.className = "heading-link ml-2 opacity-0 group-hover:opacity-100 focus:opacity-100";
-      link.href = "#" + heading.id;
-      
-      // 添加可访问性标签
-      link.setAttribute("aria-label", `前往 ${heading.innerText}`);
-      link.title = `前往 ${heading.innerText}`;
-
-      const span = document.createElement("span");
-      span.ariaHidden = "true";
-      span.innerText = "#";
-
-      link.appendChild(span);
-      heading.appendChild(link);
     }
-  }
 
-  addHeadingLinks();
+    document.addEventListener("scroll", updateScrollProgress);
+  })();
 
 
   /** Attaches copy buttons to code blocks in the document,
    * allowing users to copy code easily. */
   function attachCopyButtons() {
-    const copyButtonLabel = "Copy";
-    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+    const codeBlocks = Array.from(document.querySelectorAll("pre code")).map((code) => code.parentElement);
 
     for (const codeBlock of codeBlocks) {
+      // 创建包裹容器
       const wrapper = document.createElement("div");
       wrapper.style.position = "relative";
-
+      
+      // 创建复制按钮
       const copyButton = document.createElement("button");
       copyButton.className =
         "copy-code absolute right-3 -top-3 rounded bg-muted px-2 py-1 text-xs leading-4 text-foreground font-medium";
-      copyButton.innerHTML = copyButtonLabel;
-      codeBlock.setAttribute("tabindex", "0");
-      codeBlock.appendChild(copyButton);
+      copyButton.textContent = "Copy";
 
-      // wrap codebock with relative parent element
-      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      // 重新组织 DOM 结构
+      codeBlock.parentNode.insertBefore(wrapper, codeBlock);
       wrapper.appendChild(codeBlock);
+      wrapper.appendChild(copyButton);
 
+      // 绑定点击事件
       copyButton.addEventListener("click", async () => {
         await copyCode(codeBlock, copyButton);
       });
     }
 
     async function copyCode(block, button) {
-      const code = block.querySelector("code");
-      const text = code?.innerText;
+      const text = block.querySelector("code")?.innerText.trim() || "";
 
-      await navigator.clipboard.writeText(text ?? "");
+      await navigator.clipboard.writeText(text);
 
-      // visual feedback that task is completed
-      button.innerText = "Copied";
+      // 视觉反馈
+      button.dataset.copied = "true";
+      button.textContent = "Copied";
 
       setTimeout(() => {
-        button.innerText = copyButtonLabel;
+        button.dataset.copied = "false";
+        button.textContent = "Copy";
       }, 700);
     }
   }
-  attachCopyButtons();
 
-  /** Scrolls the document to the top when
-   * the "Back to Top" button is clicked. */
-  function backToTop() {
-    document.querySelector("#back-to-top")?.addEventListener("click", () => {
-      document.body.scrollTop = 0; // For Safari
-      document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-    });
-  }
-  backToTop();
+  attachCopyButtons();
 
   /* Go to page start after page swap */
   document.addEventListener("astro:after-swap", () =>
-    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" }),
+    window.DisqusWidget.init()
   );
 </script>
