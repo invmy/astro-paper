@@ -154,10 +154,28 @@ cloudflare只支持部分端口，参见 [cloudflare](https://developers.cloudfl
 
 
 
-## 备份文件 
+## 备份
 
-`/var/lib/vaultwarden/` 备份整个文件夹 
+`/var/lib/vaultwarden/db.sqlite3` 备份数据库
 
-`/etc/conf.d/vaultwarden` admin配置文件，重新部署需要。
+`/etc/conf.d/vaultwarden` 系统配置文件 重新部署不用再次配置
 
-## enjoy
+## 恢复
+
+新系统先安装会自动创建
+
+配置文件`/etc/conf.d/vaultwarden` 恢复并覆盖
+
+数据库`/var/lib/vaultwarden/db.sqlite3` 恢复并赋予权限
+
+```bash
+chown vaultwarden:vaultwarden db.sqlite3
+chmod 600 db.sqlite3
+chown vaultwarden:vaultwarden db.sqlite3-*
+chmod 600 db.sqlite3-*
+```
+然后重启服务 `service vaultwarden restart`
+
+错误log查看 `cat /var/log/vaultwarden/access.log`
+
+没有权限更多的会提示 `"Unable to open the database file"`
